@@ -14,6 +14,20 @@ indent() {
   sed "s/^/       /"
 }
 
+# https://devcenter.heroku.com/articles/buildpack-api#bin-compile
+export_env_dir() {
+  env_dir=$1
+  whitelist_regex=${2:-''}
+  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
+}
+
 # Changing this will cause any previous install to be replaced
 if [ -z "${OPENSSL_VERSION}" ] ; then
     OPENSSL_VERSION="1.1.0g"
@@ -22,9 +36,6 @@ fi
 available_ver="`openssl version | sed 's/OpenSSL \([^ ]\+\) .\+/\1/'`"
 dpkg --compare-versions "${available_ver}" "=" "${OPENSSL_VERSION}"
 if [[ "${?}" == "0" ]] ; then
-    env_dir=${3:-/tmp}
-    echo "env_dir: $env_dir"
-    ls -l $env_dir
     echo "OpenSSL: requested = ${OPENSSL_VERSION}, found = ${available_ver}. Exiting..." | topic
     exit 0
 fi
