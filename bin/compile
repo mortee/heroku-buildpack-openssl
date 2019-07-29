@@ -22,6 +22,7 @@ fi
 available_ver="`openssl version | sed 's/OpenSSL \([^ ]\+\) .\+/\1/'`"
 dpkg --compare-versions "${available_ver}" "=" "${OPENSSL_VERSION}"
 if [[ "${?}" == "0" ]] ; then
+    echo "OpenSSL: requested = ${OPENSSL_VERSION}, found = ${available_ver}. Exiting..." | topic
     exit 0
 fi
 
@@ -47,7 +48,7 @@ mkdir -p ${BUILD_TARGET_DIR}
 
 # This is the path that will be used at dyno runtime, and in which
 # we build.
-APP_TARGET_DIR="/app/openssl"
+APP_TARGET_DIR="${APP_TARGET_DIR_PREFIX:-}/app/openssl"
 mkdir -p ${BUILD_TARGET_DIR}
 
 VERSION_FILE=${BUILD_TARGET_DIR}/openssl/include/opensslv.h
