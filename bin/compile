@@ -22,6 +22,9 @@ fi
 available_ver="`openssl version | sed 's/OpenSSL \([^ ]\+\) .\+/\1/'`"
 dpkg --compare-versions "${available_ver}" "=" "${OPENSSL_VERSION}"
 if [[ "${?}" == "0" ]] ; then
+    env_dir=${3:-/tmp}
+    echo "env_dir: $env_dir"
+    ls -l $env_dir
     echo "OpenSSL: requested = ${OPENSSL_VERSION}, found = ${available_ver}. Exiting..." | topic
     exit 0
 fi
