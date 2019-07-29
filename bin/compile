@@ -28,7 +28,7 @@ export_env_dir() {
   fi
 }
 
-export_env_dir() $3 '^OPENSSL_VERSION$'
+export_env_dir $3 '^OPENSSL_VERSION$'
 
 # Changing this will cause any previous install to be replaced
 if [ -z "${OPENSSL_VERSION}" ] ; then
