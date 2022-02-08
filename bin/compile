@@ -32,7 +32,7 @@ export_env_dir $3 '^OPENSSL_VERSION$'
 
 # Changing this will cause any previous install to be replaced
 if [ -z "${OPENSSL_VERSION}" ] ; then
-    OPENSSL_VERSION="1.1.0g"
+    OPENSSL_VERSION="1.1.1m"
 fi
 
 available_ver="`openssl version | sed 's/OpenSSL \([^ ]\+\) .\+/\1/'`"
