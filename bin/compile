@@ -109,10 +109,10 @@ if [ ! -f ${CACHED_TAR} ] ; then
     # executed in a running dyno, not the buildpack environment
     cat <<EOF > ${BUILD_DIR}/.profile.d/openssl.sh
 export PATH="${APP_TARGET_DIR}/bin:$PATH"
-export PKG_CONFIG_PATH="${BUILD_TARGET_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
-export INCLUDE_PATH="${BUILD_TARGET_DIR}/include:${BUILD_TARGET_DIR}/include/openssl:${INCLUDE_PATH:-}"
-export LIBRARY_PATH="${BUILD_TARGET_DIR}/lib:${LIBRARY_PATH:-}"
-export LD_LIBRARY_PATH="${BUILD_TARGET_DIR}/lib:${LD_LIBRARY_PATH:-}"
+export PKG_CONFIG_PATH="${APP_TARGET_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
+export INCLUDE_PATH="${APP_TARGET_DIR}/include:${APP_TARGET_DIR}/include/openssl:${INCLUDE_PATH:-}"
+export LIBRARY_PATH="${APP_TARGET_DIR}/lib:${LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="${APP_TARGET_DIR}/lib:${LD_LIBRARY_PATH:-}"
 EOF
     chmod +x ${BUILD_DIR}/.profile.d/openssl.sh
 fi
